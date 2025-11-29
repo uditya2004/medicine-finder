@@ -48,8 +48,7 @@ YOUR RESPONSE FORMAT - Return a JSON object with this structure:
       "salt": "Active ingredient",
       "dosage": "500mg",
       "price": "₹XX per tablet",
-      "pricePerStrip": "₹XX for 10 tablets",
-      "buyLink": "https://www.1mg.com/... or https://www.amazon.in/..."
+      "pricePerStrip": "₹XX for 10 tablets"
     },
     "generic": {
       "name": "Generic name",
@@ -57,13 +56,12 @@ YOUR RESPONSE FORMAT - Return a JSON object with this structure:
       "dosage": "500mg", 
       "price": "₹XX per tablet",
       "pricePerStrip": "₹XX for 10 tablets",
-      "savings": "XX%",
-      "buyLink": "https://www.1mg.com/... or https://www.amazon.in/..."
+      "savings": "XX%"
     }
   },
   "alternatives": [
-    {"name": "Alternative 1", "salt": "...", "price": "₹XX", "source": "1mg/Amazon", "buyLink": "https://..."},
-    {"name": "Alternative 2", "salt": "...", "price": "₹XX", "source": "...", "buyLink": "https://..."},
+    {"name": "Alternative 1", "salt": "...", "price": "₹XX", "source": "1mg/Apollo"},
+    {"name": "Alternative 2", "salt": "...", "price": "₹XX", "source": "..."},
     ...up to 5 alternatives
   ],
   "description": "Detailed explanation text here..."
@@ -449,24 +447,23 @@ const findGenericWithPrices = tool({
       console.log("⚠️ RxNav API error (continuing with web search):", apiError.message);
     }
 
-    // STEP 2: Google Search for Indian prices with buy links (parallel-friendly)
-    console.log("🇮🇳 [SEARCH] Getting Indian prices and buy links via Google Search...");
+    // STEP 2: Google Search for Indian prices (parallel-friendly)
+    console.log("🇮🇳 [SEARCH] Getting Indian prices via Google Search...");
     try {
       const saltName = result.apiData?.activeIngredient || medicineName;
-      const searchPrompt = `Find current medicine prices and BUY LINKS in India for "${medicineName}" (salt: ${saltName}):
+      const searchPrompt = `Find current medicine prices in India for "${medicineName}" (salt: ${saltName}):
 
-IMPORTANT: Return factual price data WITH direct purchase links. Search for:
-1. Branded medicine price and buy link from 1mg.com (e.g., https://www.1mg.com/...)
-2. Generic alternatives with prices and 1mg.com buy links
-3. Amazon.in links for the medicine if available (e.g., https://www.amazon.in/...)
-4. At least 5 alternative generic brands with prices and buy links
+IMPORTANT: Return factual price data. Search for:
+1. Branded medicine price from 1mg.com or Apollo Pharmacy
+2. Generic alternatives with prices
+3. At least 5 alternative generic brands with prices
 
 For EACH medicine, provide:
 - Name
 - Price in INR (₹)
-- Direct buy link (1mg.com or amazon.in preferred)
+- Source (1mg, Apollo, Jan Aushadhi, etc.)
 
-Format the prices clearly in INR (₹). Include per-tablet and per-strip prices where available.`;
+Format the prices clearly in INR (₹). Include per-tablet and per-strip prices where available. Do NOT include purchase links or how to buy information.`;
 
       const { text, providerMetadata } = await generateText({
         model: geminiModel,
@@ -531,11 +528,10 @@ const webSearchMedicine = tool({
         
 Please provide accurate, up-to-date information about:
 1. Medicine prices (if asked)
-2. Where to buy generic medicines
-3. Comparison between generic and branded prices
-4. Any relevant warnings or information
+2. Comparison between generic and branded prices
+3. Any relevant warnings or information
 
-Focus on helping people find affordable medicine options. If searching for Indian medicines, include Indian pharmacy information.`,
+Focus on helping people find affordable medicine options. Do NOT include purchase links or how to buy information.`,
       });
 
       // Extract grounding metadata for sources
