@@ -1,4 +1,4 @@
-import { Agent, run, tool, setTracingDisabled } from "@openai/agents";
+import { Agent, run, tool, setTracingDisabled, setDefaultOpenAIClient } from "@openai/agents";
 import { google } from "@ai-sdk/google";
 import { aisdk } from "@openai/agents-extensions";
 import { generateText } from "ai";
@@ -9,7 +9,19 @@ import axios from "axios";
 // Disable OpenAI tracing to suppress the warning message
 setTracingDisabled(true);
 
-// Create a Gemini model instance with Google Search grounding capability
+import OpenAI from "openai";
+
+const groqClient = new OpenAI({
+  apiKey: process.env.GROQ_API_KEY,
+  baseURL: "https://api.groq.com/openai/v1"
+});
+
+setDefaultOpenAIClient(groqClient);
+
+// Groq model for main agent
+const GROQ_MODEL = "openai/gpt-oss-120b";
+
+// Create a Gemini model instance with Google Search grounding capability (used only for grounding)
 const geminiModel = google("gemini-2.5-flash");
 
 const systemPrompt = `You are a helpful assistant that helps Indian patients find affordable generic medicines.
@@ -621,8 +633,10 @@ Focus on helping Indian patients find affordable generic alternatives. Include s
 });
 
 // Create the Agent with combined tool as primary
+// Uses Groq model for all agent reasoning
 const agent = new Agent({
   name: "Generic Medicine Finder",
+  model: GROQ_MODEL,
   instructions: systemPrompt,
   tools: [
     findGenericWithPrices,  // PRIMARY: Combined fast API + Indian prices
