@@ -1,0 +1,32 @@
+{
+  "name": "agent",
+  "version": "1.0.0",
+  "description": "Generic Medicine Finder Agent - Helps find affordable generic alternatives to branded medicines",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch index.js",
+    "medicine": "node med_tool.js",
+    "find-generic": "node med_tool.js",
+    "start": "node server.js",
+    "server": "node server.js"
+  },
+  "keywords": [
+    "medicine",
+    "generic",
+    "healthcare",
+    "ai-agent"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@ai-sdk/google": "^2.0.44",
+    "@openai/agents": "^0.3.3",
+    "@openai/agents-extensions": "^0.3.3",
+    "ai": "^5.0.104",
+    "axios": "^1.13.2",
+    "dotenv": "^17.2.3",
+    "express": "^4.21.2",
+    "zod": "^3.25.76"
+  }
+}

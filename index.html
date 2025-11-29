@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generic Medicine Finder - Save Money on Medicines</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #0d9488;
+      --primary-dark: #0f766e;
+      --primary-light: #ccfbf1;
+      --secondary: #6366f1;
+      --accent: #8b5cf6;
+      --danger: #dc2626;
+      --success: #16a34a;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #94a3b8;
+      --bg-primary: #ffffff;
+      --bg-secondary: #f8fafc;
+      --bg-tertiary: #f1f5f9;
+      --border-light: #e2e8f0;
+      --border-dark: #cbd5e1;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg-secondary);
+      min-height: 100vh;
+      color: var(--text-primary);
+      font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Header */
+    header {
+      background: var(--bg-primary);
+      border-bottom: 1px solid var(--border-light);
+      padding: 0.875rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(8px);
+      background: rgba(255, 255, 255, 0.95);
+    }
+
+    .header-content {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+    }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--primary);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.125rem;
+    }
+
+    .logo-text h1 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.025em;
+    }
+
+    .logo-text p {
+      font-size: 0.6875rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .header-badge {
+      background: var(--bg-tertiary);
+      color: var(--text-secondary);
+      padding: 0.375rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+      border: 1px solid var(--border-light);
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2rem 2rem;
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 0.75rem 0 1.5rem;
+    }
+
+    .hero h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.035em;
+      margin-bottom: 0.375rem;
+    }
+
+    .hero p {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.5;
+      font-weight: 400;
+    }
+
+    /* Search Card */
+    .search-card {
+      background: var(--bg-primary);
+      border-radius: 10px;
+      border: 1px solid var(--border-light);
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .search-form {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .input-wrapper {
+      flex: 1;
+      min-width: 260px;
+      position: relative;
+    }
+
+    .input-wrapper input {
+      width: 100%;
+      padding: 0.75rem 1rem 0.75rem 2.5rem;
+      font-size: 0.875rem;
+      font-family: inherit;
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.2s ease;
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+    }
+
+    .input-wrapper input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .input-wrapper input:focus {
+      border-color: var(--primary);
+      background: var(--bg-primary);
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 0.875rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1rem;
+      color: var(--text-muted);
+    }
+
+    .search-btn {
+      padding: 0.75rem 1.5rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      font-family: inherit;
+      color: white;
+      background: var(--primary);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .search-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    .search-btn:disabled {
+      background: var(--text-muted);
+      cursor: not-allowed;
+    }
+
+    /* Quick Examples */
+    .examples {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .examples-title {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 0.625rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .example-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .example-chip {
+      padding: 0.375rem 0.75rem;
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+      background: var(--bg-tertiary);
+      border: 1px solid transparent;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-weight: 500;
+    }
+
+    .example-chip:hover {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+    }
+
+    /* Results Section */
+    .results-section {
+      display: none;
+    }
+
+    .results-section.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Comparison Section */
+    .comparison-section {
+      background: var(--bg-primary);
+      border-radius: 12px;
+      border: 1px solid var(--border-light);
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+
+    .comparison-header {
+      background: var(--bg-tertiary);
+      border-bottom: 1px solid var(--border-light);
+      color: var(--text-primary);
+      padding: 0.875rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .comparison-header h3 {
+      font-size: 0.875rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+
+    .comparison-card {
+      padding: 1.25rem 1.5rem;
+      border-right: 1px solid var(--border-light);
+    }
+
+    .comparison-card:last-child {
+      border-right: none;
+    }
+
+    .comparison-card.branded {
+      background: #fef7f7;
+    }
+
+    .comparison-card.generic {
+      background: #f0fdf8;
+    }
+
+    .comparison-label {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    .branded .comparison-label {
+      color: var(--danger);
+    }
+
+    .generic .comparison-label {
+      color: var(--success);
+    }
+
+    .comparison-name {
+      font-size: 1.0625rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.01em;
+    }
+
+    .comparison-details {
+      display: flex;
+      flex-direction: column;
+      gap: 0.375rem;
+    }
+
+    .comparison-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8125rem;
+    }
+
+    .comparison-row .label {
+      color: var(--text-muted);
+    }
+
+    .comparison-row .value {
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .price-highlight {
+      font-size: 1.375rem;
+      font-weight: 700;
+      margin-top: 0.75rem;
+      letter-spacing: -0.02em;
+    }
+
+    .branded .price-highlight {
+      color: var(--danger);
+    }
+
+    .generic .price-highlight {
+      color: var(--success);
+    }
+
+    .savings-badge {
+      display: inline-block;
+      background: var(--success);
+      color: white;
+      padding: 0.25rem 0.625rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-top: 0.625rem;
+    }
+
+    /* Alternatives Section */
+    .alternatives-section {
+      background: var(--bg-primary);
+      border-radius: 12px;
+      border: 1px solid var(--border-light);
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+
+    .alternatives-header {
+      background: var(--bg-tertiary);
+      border-bottom: 1px solid var(--border-light);
+      color: var(--text-primary);
+      padding: 0.875rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .alternatives-header h3 {
+      font-size: 0.875rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .alternatives-list {
+      padding: 0;
+    }
+
+    .alternative-item {
+      display: grid;
+      grid-template-columns: 1.5fr 1.5fr 0.8fr 0.8fr;
+      padding: 0.75rem 1.5rem;
+      border-bottom: 1px solid var(--border-light);
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .alternative-item:last-child {
+      border-bottom: none;
+    }
+
+    .alternative-item:nth-child(even) {
+      background: var(--bg-secondary);
+    }
+
+    .alt-name {
+      font-weight: 500;
+      font-size: 0.875rem;
+      color: var(--text-primary);
+    }
+
+    .alt-salt {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+    }
+
+    .alt-price {
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: var(--success);
+    }
+
+    .alt-source {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+    }
+
+    .alternatives-table-header {
+      display: grid;
+      grid-template-columns: 1.5fr 1.5fr 0.8fr 0.8fr;
+      padding: 0.625rem 1.5rem;
+      background: var(--bg-tertiary);
+      border-bottom: 1px solid var(--border-light);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      gap: 1rem;
+    }
+
+    /* Description Section */
+    .description-section {
+      background: var(--bg-primary);
+      border-radius: 12px;
+      border: 1px solid var(--border-light);
+      overflow: hidden;
+    }
+
+    .description-header {
+      background: var(--bg-tertiary);
+      border-bottom: 1px solid var(--border-light);
+      color: var(--text-primary);
+      padding: 0.875rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .description-header h3 {
+      font-size: 0.875rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .description-content {
+      padding: 1.25rem 1.5rem;
+      line-height: 1.6;
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+
+    /* Loading State */
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 2.5rem;
+      background: var(--bg-primary);
+      border-radius: 12px;
+      border: 1px solid var(--border-light);
+    }
+
+    .loading.active {
+      display: block;
+    }
+
+    .spinner {
+      width: 32px;
+      height: 32px;
+      border: 2px solid var(--border-light);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 1rem;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .loading p {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .loading-steps {
+      margin-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.375rem;
+    }
+
+    .loading-step {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+    }
+
+    .loading-step.active {
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    .loading-step.done {
+      color: var(--success);
+    }
+
+    /* Info Cards */
+    .info-section {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .info-card {
+      background: var(--bg-primary);
+      border-radius: 8px;
+      padding: 1rem;
+      border: 1px solid var(--border-light);
+    }
+
+    .info-card h4 {
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      margin-bottom: 0.375rem;
+      color: var(--text-primary);
+    }
+
+    .info-card p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+    }
+
+    footer a {
+      color: var(--text-secondary);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: var(--primary);
+    }
+
+    /* Responsive - Tablet */
+    @media (max-width: 768px) {
+      .container {
+        padding: 1.5rem 1rem;
+      }
+
+      .comparison-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .comparison-card {
+        border-right: none;
+        border-bottom: 1px solid var(--border-light);
+      }
+
+      .comparison-card:last-child {
+        border-bottom: none;
+      }
+
+      .alternative-item,
+      .alternatives-table-header {
+        grid-template-columns: 1.2fr 1fr 0.6fr;
+        padding: 0.625rem 1rem;
+        gap: 0.5rem;
+      }
+
+      .alternatives-table-header span:nth-child(4),
+      .alternative-item .alt-source {
+        display: none;
+      }
+
+      .info-section {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+      }
+
+      .info-card {
+        padding: 0.875rem;
+      }
+    }
+
+    /* Responsive - Mobile */
+    @media (max-width: 640px) {
+      header {
+        padding: 0.75rem 1rem;
+      }
+
+      .logo-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+        border-radius: 6px;
+      }
+
+      .logo-text h1 {
+        font-size: 0.9375rem;
+      }
+
+      .logo-text p {
+        font-size: 0.625rem;
+      }
+
+      .header-badge {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.6875rem;
+      }
+
+      .container {
+        padding: 1rem 0.875rem;
+      }
+
+      .hero {
+        padding: 0.5rem 0 1rem;
+      }
+
+      .hero h2 {
+        font-size: 1.25rem;
+      }
+
+      .hero p {
+        font-size: 0.8125rem;
+      }
+
+      .search-card {
+        padding: 0.875rem 1rem;
+        border-radius: 8px;
+      }
+
+      .search-form {
+        flex-direction: column;
+        gap: 0.625rem;
+      }
+
+      .input-wrapper {
+        min-width: 100%;
+      }
+
+      .input-wrapper input {
+        padding: 0.875rem 1rem 0.875rem 2.25rem;
+        font-size: 1rem;
+      }
+
+      .search-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 0.875rem 1.25rem;
+      }
+
+      .examples {
+        margin-top: 0.875rem;
+        padding-top: 0.875rem;
+      }
+
+      .examples-title {
+        font-size: 0.6875rem;
+      }
+
+      .example-chips {
+        gap: 0.375rem;
+      }
+
+      .example-chip {
+        padding: 0.375rem 0.625rem;
+        font-size: 0.75rem;
+      }
+
+      /* Comparison Section Mobile */
+      .comparison-section {
+        border-radius: 10px;
+      }
+
+      .comparison-header {
+        padding: 0.75rem 1rem;
+      }
+
+      .comparison-header h3 {
+        font-size: 0.8125rem;
+      }
+
+      .comparison-card {
+        padding: 1rem 1.125rem;
+      }
+
+      .comparison-name {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .comparison-row {
+        font-size: 0.75rem;
+      }
+
+      .price-highlight {
+        font-size: 1.25rem;
+        margin-top: 0.5rem;
+      }
+
+      .savings-badge {
+        font-size: 0.6875rem;
+        padding: 0.25rem 0.5rem;
+      }
+
+      /* Alternatives Section Mobile */
+      .alternatives-section {
+        border-radius: 10px;
+      }
+
+      .alternatives-header {
+        padding: 0.75rem 1rem;
+      }
+
+      .alternatives-header h3 {
+        font-size: 0.8125rem;
+      }
+
+      .alternatives-table-header {
+        grid-template-columns: 1fr 0.6fr;
+        padding: 0.5rem 0.875rem;
+        font-size: 0.625rem;
+      }
+
+      .alternatives-table-header span:nth-child(2),
+      .alternatives-table-header span:nth-child(4) {
+        display: none;
+      }
+
+      .alternative-item {
+        grid-template-columns: 1fr 0.5fr;
+        padding: 0.625rem 0.875rem;
+        gap: 0.5rem;
+      }
+
+      .alternative-item .alt-salt,
+      .alternative-item .alt-source {
+        display: none;
+      }
+
+      .alt-name {
+        font-size: 0.8125rem;
+      }
+
+      .alt-price {
+        font-size: 0.8125rem;
+        text-align: right;
+      }
+
+      /* Description Section Mobile */
+      .description-section {
+        border-radius: 10px;
+      }
+
+      .description-header {
+        padding: 0.75rem 1rem;
+      }
+
+      .description-header h3 {
+        font-size: 0.8125rem;
+      }
+
+      .description-content {
+        padding: 1rem 1.125rem;
+        font-size: 0.8125rem;
+      }
+
+      .description-content h3 {
+        font-size: 0.875rem;
+      }
+
+      .description-content ul,
+      .description-content ol {
+        padding-left: 1rem;
+      }
+
+      .description-content table {
+        font-size: 0.75rem;
+      }
+
+      .description-content th,
+      .description-content td {
+        padding: 0.375rem 0.5rem;
+      }
+
+      /* Loading Mobile */
+      .loading {
+        padding: 2rem 1rem;
+        border-radius: 10px;
+      }
+
+      .loading p {
+        font-size: 0.8125rem;
+      }
+
+      .loading-step {
+        font-size: 0.75rem;
+      }
+
+      /* Info Section Mobile */
+      .info-section {
+        margin-top: 1rem;
+        gap: 0.5rem;
+      }
+
+      .info-card {
+        padding: 0.75rem 0.875rem;
+        border-radius: 6px;
+      }
+
+      .info-card h4 {
+        font-size: 0.75rem;
+        gap: 0.25rem;
+      }
+
+      .info-card p {
+        font-size: 0.6875rem;
+      }
+
+      /* Footer Mobile */
+      footer {
+        padding: 1.5rem 1rem;
+        font-size: 0.6875rem;
+      }
+    }
+
+    /* Extra small devices */
+    @media (max-width: 380px) {
+      .logo-text h1 {
+        font-size: 0.875rem;
+      }
+
+      .hero h2 {
+        font-size: 1.125rem;
+      }
+
+      .example-chip {
+        padding: 0.3125rem 0.5rem;
+        font-size: 0.6875rem;
+      }
+
+      .comparison-name {
+        font-size: 0.9375rem;
+      }
+
+      .price-highlight {
+        font-size: 1.125rem;
+      }
+    }
+
+    /* Markdown styling for description */
+    .description-content h1, 
+    .description-content h2, 
+    .description-content h3 {
+      margin-top: 1rem;
+      margin-bottom: 0.375rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .description-content h3 {
+      font-size: 0.9375rem;
+    }
+
+    .description-content ul, 
+    .description-content ol {
+      margin: 0.5rem 0;
+      padding-left: 1.125rem;
+    }
+
+    .description-content li {
+      margin: 0.25rem 0;
+    }
+
+    .description-content strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .description-content p {
+      margin: 0.375rem 0;
+    }
+
+    .description-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.75rem 0;
+      font-size: 0.8125rem;
+    }
+
+    .description-content th,
+    .description-content td {
+      padding: 0.5rem 0.75rem;
+      border: 1px solid var(--border-light);
+      text-align: left;
+    }
+
+    .description-content th {
+      background: var(--bg-tertiary);
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <div class="logo">
+        <div class="logo-icon">💊</div>
+        <div class="logo-text">
+          <h1>Generic Medicine Finder</h1>
+          <p>Save Money on Medicines</p>
+        </div>
+      </div>
+      <div class="header-badge">
+        <span>🇮🇳</span>
+        <span>For India</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h2>Find Affordable Generic Medicines</h2>
+      <p>Compare prices and find generic alternatives with the same composition at lower cost.</p>
+    </section>
+
+    <section class="search-card">
+      <form class="search-form" id="searchForm">
+        <div class="input-wrapper">
+          <span class="input-icon">🔍</span>
+          <input 
+            type="text" 
+            id="medicineInput" 
+            placeholder="Enter medicine name (e.g., Crocin 500, Dolo 650, Augmentin 625)"
+            autocomplete="off"
+          >
+        </div>
+        <button type="submit" class="search-btn" id="searchBtn">
+          <span>Find Generic</span>
+          <span>→</span>
+        </button>
+      </form>
+
+      <div class="examples">
+        <p class="examples-title">Popular searches:</p>
+        <div class="example-chips">
+          <span class="example-chip" data-query="Crocin 500">Crocin 500</span>
+          <span class="example-chip" data-query="Dolo 650">Dolo 650</span>
+          <span class="example-chip" data-query="Augmentin 625">Augmentin 625</span>
+          <span class="example-chip" data-query="Pan 40">Pan 40</span>
+          <span class="example-chip" data-query="Azithral 500">Azithral 500</span>
+          <span class="example-chip" data-query="Shelcal 500">Shelcal 500</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="loading" id="loading">
+      <div class="spinner"></div>
+      <p>Finding best prices...</p>
+      <div class="loading-steps">
+        <div class="loading-step" id="step1">
+          Identifying composition
+        </div>
+        <div class="loading-step" id="step2">
+          Searching pharmacy prices
+        </div>
+        <div class="loading-step" id="step3">
+          Finding alternatives
+        </div>
+      </div>
+    </section>
+
+    <section class="results-section" id="resultsSection">
+      <!-- Comparison Section -->
+      <div class="comparison-section" id="comparisonSection">
+        <div class="comparison-header">
+          <h3>Price Comparison</h3>
+        </div>
+        <div class="comparison-grid">
+          <div class="comparison-card branded">
+            <div class="comparison-label">Branded</div>
+            <div class="comparison-name" id="brandedName">-</div>
+            <div class="comparison-details">
+              <div class="comparison-row">
+                <span class="label">Salt:</span>
+                <span class="value" id="brandedSalt">-</span>
+              </div>
+              <div class="comparison-row">
+                <span class="label">Dosage:</span>
+                <span class="value" id="brandedDosage">-</span>
+              </div>
+            </div>
+            <div class="price-highlight" id="brandedPrice">₹--</div>
+          </div>
+          <div class="comparison-card generic">
+            <div class="comparison-label">Generic • Recommended</div>
+            <div class="comparison-name" id="genericName">-</div>
+            <div class="comparison-details">
+              <div class="comparison-row">
+                <span class="label">Salt:</span>
+                <span class="value" id="genericSalt">-</span>
+              </div>
+              <div class="comparison-row">
+                <span class="label">Dosage:</span>
+                <span class="value" id="genericDosage">-</span>
+              </div>
+            </div>
+            <div class="price-highlight" id="genericPrice">₹--</div>
+            <div class="savings-badge" id="savingsBadge">Save XX%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Alternatives Section -->
+      <div class="alternatives-section" id="alternativesSection">
+        <div class="alternatives-header">
+          <h3>Alternatives</h3>
+        </div>
+        <div class="alternatives-table-header">
+          <span>Medicine Name</span>
+          <span>Salt/Composition</span>
+          <span>Price</span>
+          <span>Source</span>
+        </div>
+        <div class="alternatives-list" id="alternativesList">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Description Section -->
+      <div class="description-section">
+        <div class="description-header">
+          <h3>Details</h3>
+        </div>
+        <div class="description-content" id="descriptionContent">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <section class="info-section">
+      <div class="info-card">
+        <h4>Why Generic?</h4>
+        <p>Same composition, same effect, 30-80% cheaper.</p>
+      </div>
+      <div class="info-card">
+        <h4>Important</h4>
+        <p>Never change dosage without consulting your doctor.</p>
+      </div>
+      <div class="info-card">
+        <h4>Real-Time Prices</h4>
+        <p>Current prices from 1mg, Apollo & other pharmacies.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Built to help people save money on healthcare 💚</p>
+    <p style="margin-top: 0.25rem;">Data from RxNav NIH & Google Search</p>
+  </footer>
+
+  <script>
+    const form = document.getElementById('searchForm');
+    const input = document.getElementById('medicineInput');
+    const searchBtn = document.getElementById('searchBtn');
+    const loading = document.getElementById('loading');
+    const resultsSection = document.getElementById('resultsSection');
+
+    // Example chips click handler
+    document.querySelectorAll('.example-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        input.value = chip.dataset.query;
+        form.dispatchEvent(new Event('submit'));
+      });
+    });
+
+    // Simulate loading steps
+    function animateLoadingSteps() {
+      const steps = ['step1', 'step2', 'step3'];
+      let current = 0;
+      
+      const interval = setInterval(() => {
+        if (current > 0) {
+          document.getElementById(steps[current - 1]).classList.remove('active');
+          document.getElementById(steps[current - 1]).classList.add('done');
+        }
+        if (current < steps.length) {
+          document.getElementById(steps[current]).classList.add('active');
+          current++;
+        } else {
+          clearInterval(interval);
+        }
+      }, 1500);
+
+      return () => clearInterval(interval);
+    }
+
+    // Form submission
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const query = input.value.trim();
+      
+      if (!query) {
+        alert('Please enter a medicine name');
+        return;
+      }
+
+      // Reset loading steps
+      ['step1', 'step2', 'step3'].forEach(id => {
+        document.getElementById(id).classList.remove('active', 'done');
+      });
+
+      // Show loading, hide results
+      loading.classList.add('active');
+      resultsSection.classList.remove('active');
+      searchBtn.disabled = true;
+
+      const stopAnimation = animateLoadingSteps();
+
+      try {
+        const response = await fetch('/api/search', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ query }),
+        });
+
+        const data = await response.json();
+        stopAnimation();
+        
+        // Parse and display results
+        displayResults(query, data.result);
+        
+        loading.classList.remove('active');
+        resultsSection.classList.add('active');
+        
+        // Scroll to results
+        resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } catch (error) {
+        console.error('Error:', error);
+        stopAnimation();
+        loading.classList.remove('active');
+        alert('Error connecting to the server. Please try again.');
+      } finally {
+        searchBtn.disabled = false;
+      }
+    });
+
+    // Display results with structured data
+    function displayResults(query, resultText) {
+      // Try to extract JSON from the response
+      let structuredData = null;
+      try {
+        // Look for JSON in the response
+        const jsonMatch = resultText.match(/```json\s*([\s\S]*?)\s*```/);
+        if (jsonMatch) {
+          structuredData = JSON.parse(jsonMatch[1]);
+        } else {
+          // Try finding raw JSON
+          const rawJsonMatch = resultText.match(/\{[\s\S]*"comparison"[\s\S]*\}/);
+          if (rawJsonMatch) {
+            structuredData = JSON.parse(rawJsonMatch[0]);
+          }
+        }
+      } catch (e) {
+        console.log('Could not parse structured data, extracting from text');
+      }
+
+      // Update comparison section with extracted or structured data
+      if (structuredData?.comparison) {
+        const comp = structuredData.comparison;
+        document.getElementById('brandedName').textContent = comp.branded?.name || query;
+        document.getElementById('brandedSalt').textContent = comp.branded?.salt || '-';
+        document.getElementById('brandedDosage').textContent = comp.branded?.dosage || '-';
+        document.getElementById('brandedPrice').textContent = comp.branded?.price || '-';
+        
+        document.getElementById('genericName').textContent = comp.generic?.name || 'Generic';
+        document.getElementById('genericSalt').textContent = comp.generic?.salt || '-';
+        document.getElementById('genericDosage').textContent = comp.generic?.dosage || '-';
+        document.getElementById('genericPrice').textContent = comp.generic?.price || '-';
+        document.getElementById('savingsBadge').textContent = `Save ${comp.generic?.savings || '30-50'}%`;
+      } else {
+        // Extract from text using patterns
+        document.getElementById('brandedName').textContent = query;
+        
+        // Try to extract salt
+        const saltMatch = resultText.match(/(?:salt|composition|contains?|active ingredient)[:\s]*([A-Za-z\s]+(?:\d+\s*mg)?)/i);
+        if (saltMatch) {
+          const salt = saltMatch[1].trim();
+          document.getElementById('brandedSalt').textContent = salt;
+          document.getElementById('genericSalt').textContent = salt;
+        }
+        
+        // Try to extract branded price
+        const brandedPriceMatch = resultText.match(/(?:branded|brand)[^₹]*₹\s*([\d,.]+)/i) || 
+                                   resultText.match(new RegExp(query.replace(/\s+/g, '\\s*') + '[^₹]*₹\\s*([\\d,.]+)', 'i'));
+        if (brandedPriceMatch) {
+          document.getElementById('brandedPrice').textContent = '₹' + brandedPriceMatch[1];
+        }
+        
+        // Try to extract generic price
+        const genericPriceMatch = resultText.match(/(?:generic|Jan Aushadhi)[^₹]*₹\s*([\d,.]+)/i);
+        if (genericPriceMatch) {
+          document.getElementById('genericPrice').textContent = '₹' + genericPriceMatch[1];
+        }
+        
+        // Extract generic name
+        const genericNameMatch = resultText.match(/(?:generic[:\s]+|alternative[:\s]+)([A-Za-z\s\d]+)/i);
+        if (genericNameMatch) {
+          document.getElementById('genericName').textContent = genericNameMatch[1].trim();
+        } else {
+          document.getElementById('genericName').textContent = 'Generic ' + query.split(/\s+/)[0];
+        }
+        
+        // Extract savings
+        const savingsMatch = resultText.match(/(?:save|saving|savings)[:\s]*(\d+)[\s]*%/i);
+        if (savingsMatch) {
+          document.getElementById('savingsBadge').textContent = 'Save ' + savingsMatch[1] + '%';
+        }
+      }
+
+      // Alternatives list
+      const alternativesList = document.getElementById('alternativesList');
+      alternativesList.innerHTML = '';
+      
+      if (structuredData?.alternatives && structuredData.alternatives.length > 0) {
+        structuredData.alternatives.forEach(alt => {
+          const item = document.createElement('div');
+          item.className = 'alternative-item';
+          item.innerHTML = `
+            <span class="alt-name">${alt.name || '-'}</span>
+            <span class="alt-salt">${alt.salt || '-'}</span>
+            <span class="alt-price">${alt.price || '-'}</span>
+            <span class="alt-source">${alt.source || '-'}</span>
+          `;
+          alternativesList.appendChild(item);
+        });
+      } else {
+        // Extract alternatives from text
+        const lines = resultText.split('\n');
+        let alternatives = [];
+        
+        // Look for numbered list items with prices
+        for (const line of lines) {
+          const altMatch = line.match(/^\d+[\.\)]\s*([^₹]+?)(?:\s*[-–:]\s*)?₹\s*([\d,.]+)/i);
+          if (altMatch && alternatives.length < 5) {
+            alternatives.push({
+              name: altMatch[1].trim(),
+              price: '₹' + altMatch[2]
+            });
+          }
+        }
+        
+        // Also try pattern with dash separator
+        if (alternatives.length === 0) {
+          const altMatches = resultText.matchAll(/([A-Za-z\s]+(?:\d+)?)\s*[-–]\s*₹\s*([\d,.]+)/g);
+          for (const match of altMatches) {
+            if (alternatives.length >= 5) break;
+            alternatives.push({
+              name: match[1].trim(),
+              price: '₹' + match[2]
+            });
+          }
+        }
+        
+        if (alternatives.length > 0) {
+          alternatives.forEach(alt => {
+            const item = document.createElement('div');
+            item.className = 'alternative-item';
+            item.innerHTML = `
+              <span class="alt-name">${alt.name}</span>
+              <span class="alt-salt">-</span>
+              <span class="alt-price">${alt.price}</span>
+              <span class="alt-source">-</span>
+            `;
+            alternativesList.appendChild(item);
+          });
+        } else {
+          alternativesList.innerHTML = '<div class="alternative-item"><span>See detailed information below for alternatives</span></div>';
+        }
+      }
+
+      // Description content (formatted text)
+      const descriptionContent = document.getElementById('descriptionContent');
+      let formattedText = structuredData?.description || resultText;
+      
+      // Remove JSON blocks from display text
+      formattedText = formattedText.replace(/```json[\s\S]*?```/g, '');
+      formattedText = formattedText.replace(/\{[\s\S]*"comparison"[\s\S]*\}/g, '');
+      
+      // Clean up extra whitespace
+      formattedText = formattedText.replace(/\n{3,}/g, '\n\n');
+      
+      descriptionContent.innerHTML = formatMarkdown(formattedText.trim());
+    }
+
+    // Format markdown-like text to HTML
+    function formatMarkdown(text) {
+      if (!text) return '<p>No additional information available.</p>';
+      
+      let formatted = text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+      
+      // Headers
+      formatted = formatted.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+      formatted = formatted.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+      formatted = formatted.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+      
+      // Bold
+      formatted = formatted.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+      
+      // List items
+      formatted = formatted.replace(/^[-•] (.+)$/gm, '<li>$1</li>');
+      formatted = formatted.replace(/^(\d+)[\.\)] (.+)$/gm, '<li>$2</li>');
+      
+      // Wrap lists
+      formatted = formatted.replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>');
+      
+      // Paragraphs
+      formatted = formatted.replace(/^(?!<[hultrd]|<li)(.+)$/gm, '<p>$1</p>');
+      
+      // Clean up
+      formatted = formatted.replace(/<p>\s*<\/p>/g, '');
+      formatted = formatted.replace(/<p>---<\/p>/g, '<hr>');
+      
+      return formatted;
+    }
+  </script>
+</body>
+</html>
