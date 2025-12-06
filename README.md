@@ -75,7 +75,7 @@ Open `http://localhost:3000` in your browser.
 | **Frontend** | HTML5 • CSS3 • JavaScript |
 | **Backend** | Express.js • AI SDK • OpenAI Agents |
 | **AI Models** | Groq (GPT-OSS-120B) • Google Gemini |
-| **APIs** | RxNorm (NIH) • Indian Pharmacy Pricing |
+| **APIs** | RxNorm (NIH) |
 
 ## 🔧 API Endpoints
 
